@@ -7,7 +7,7 @@ from utils import transport_cost
 a = np.random.rand(14,14)
 np.fill_diagonal(a, 0)
 print(a)'''
-a = np.zeros((14,14))
+
 def cost_array():
     'generates cost array'
     array = np.zeros((len(dataset.index.values),len(dataset.index.values)))
