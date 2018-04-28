@@ -51,4 +51,4 @@ def two_opt(cities, improvement_threshold): # 2-opt Algorithm adapted from https
                     route = new_route # make this the accepted best route
                     best_distance = new_distance # and update the distance corresponding to this route.
         improvement_factor = 1 - best_distance/distance_to_beat # Calculate how much the route has improved.
-    return route # When the route is no longer improving substantially, stop searching and return the route.
+    return route    # When the route is no longer improving substantially, stop searching and return the route.
