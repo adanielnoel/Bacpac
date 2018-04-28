@@ -8,12 +8,14 @@ a = np.random.rand(14,14)
 np.fill_diagonal(a, 0)
 print(a)'''
 a = np.zeros((14,14))
-
-for i, city1 in enumerate(dataset.index.values):
-    for j, city2 in enumerate(dataset.index.values):
-        a[i, j] = transport_cost(dataset, city1, city2)
-
-print(a)
+def cost_array():
+    'generates cost array'
+    array = np.zeros((len(dataset.index.values),len(dataset.index.values)))
+    for i, city1 in enumerate(dataset.index.values):
+        for j, city2 in enumerate(dataset.index.values):
+            array[i, j] = transport_cost(dataset, city1, city2)
+    return array
+a = cost_array()
 
 def array2list(array):
     'list conversions'
