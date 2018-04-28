@@ -193,7 +193,7 @@ def solve_tsp(distances, optim_steps=3, pairs_by_dist=pairs_by_dist, endpoints=N
     # invoke main greedy algorithm
     join_segments(pairs_by_dist(N, distances))
 
-    # now call additional optiomization procedure.
+    # now call additional optimization procedure.
     for passn in range(optim_steps):
         nopt, dtotal = optimize_solution(distances, connections, endpoints)
         if nopt == 0:

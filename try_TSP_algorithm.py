@@ -26,5 +26,5 @@ def array2list(array):
 
 D= array2list(a)
 print(D)
-path = solve_tsp( D )
+path = solve_tsp(D, optim_steps=100, endpoints=(8,4))
 print(path)
