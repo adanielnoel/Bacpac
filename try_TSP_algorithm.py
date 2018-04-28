@@ -1,7 +1,7 @@
 import numpy as np
 from greedy_TSP_albi import solve_tsp
 from main import dataset
-from utils import transport_cost
+from utils import transport_cost, plot_map
 '''#test
 #a = np.array([[0,2,3],[7,0,5], [9,10,0]])
 a = np.random.rand(14,14)
@@ -28,3 +28,6 @@ D= array2list(a)
 print(D)
 path = solve_tsp( D )
 print(path)
+
+plot_map(itinerary=[(dataset.at[dataset.index.values[i], "Latitude"], dataset.at[dataset.index.values[i], "Longitude"]) for i in path])
+
