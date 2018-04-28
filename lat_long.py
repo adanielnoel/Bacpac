@@ -12,4 +12,4 @@ magic = 'https://distribution-xml.booking.com/2.1/json/hotelAvailability?checkin
 req = requests.get(magic, auth=auth)
 #output = req.json()
 #json1_sata = json.loads(output)[1]
-print(req.content
+print(req.content)
