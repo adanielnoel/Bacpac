@@ -56,18 +56,16 @@ def optimize_solution(distances, connections, endpoints):
                 connections[path[a]].append(path[c])
                 connections[path[b]].remove(path[a])
                 connections[path[b]].append(path[d])
-
                 connections[path[c]].remove(path[d])
                 connections[path[c]].append(path[a])
                 connections[path[d]].remove(path[c])
                 connections[path[d]].append(path[b])
                 path[:] = restore_path(connections, endpoints)
-
     return optimizations, d_total
 
 
 def restore_path(connections, endpoints):
-    """Takes array of connections and returns a path.
+    """ Takes array of connections and returns a path.
     Connections is array of lists with 1 or 2 elements.
     These elements are indices of teh vertices, connected to this vertex
     Guarantees that first index < last index
