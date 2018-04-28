@@ -20,3 +20,4 @@ print(transport_cost(dataset, "Bali Ubud", "Nusa Penida"))
 
 # plot_map(points=[tuple(coords) for coords in dataset[["Latitude", "Longitude"]].values],
 #          names=dataset["Landmark"].values)
+print(dataset)
