@@ -5,24 +5,31 @@ from math import log10
 
 
 class Hotels:
-    def __init__(self, city, checkin_date, checkout_date, max_budget, hotel_nr, adults_nr):
-        self.city = city
+    def __init__(self, coords, checkin_date, checkout_date, max_budget, hotel_nr, adults_nr,radius):
+        self.coords = coords
         self.checkin = checkin_date
         self.checkout = checkout_date
         self.budget = max_budget
         self.auth = ('booking_hackathon_ichack18', 'WorkingAtBooking.com2018')
-        self.city_api = 'https://distribution-xml.booking.com/2.1/json/autocomplete?language=en;text=' + self.city
-        self.city_id = requests.get(self.city_api, auth=self.auth).json()['result'][0]['id']
+        # self.city_api = 'https://distribution-xml.booking.com/2.1/json/autocomplete?language=en;text='+ self.coords
+        # self.city_id = requests.get(self.city_api, auth=self.auth).json()['result'][0]['id']
         self.hotel_nr = hotel_nr
         self.adults_nr = "A," * adults_nr
         self.adults_nr = self.adults_nr[:len(self.adults_nr) - 1]
+        self.radius = str(radius)
 
     def available_hotels(self):
+
+        # hotel_availables = 'https://distribution-xml.booking.com/2.1/json/hotelAvailability?checkin=' + self.checkin + \
+        #                    '&checkout=' + self.checkout + '&city_ids=' + self.city_id + '&room1=' + self.adults_nr + \
+        #                    '&extras=room_details,hotel_details&currency=EUR'
         hotel_availables = 'https://distribution-xml.booking.com/2.1/json/hotelAvailability?checkin=' + self.checkin + \
-                           '&checkout=' + self.checkout + '&city_ids=' + self.city_id + '&room1=' + self.adults_nr + \
+                           '&checkout=' + self.checkout + '&latitude=' + str(self.coords[0]) + '&longitude=' + str(
+            self.coords[1]) + '&radius=' + self.radius + '&room1=' + self.adults_nr + \
                            '&extras=room_details,hotel_details&currency=EUR'
         self.hotels = requests.get(hotel_availables, auth=self.auth).json()['result']
-        json.dump(self.hotels, open("temp.json", 'w'), indent=4)
+        # json.dump(self.hotels, open("temp.json", 'w'), indent=4)
+
 
         return self.hotels
 
@@ -37,7 +44,7 @@ class Hotels:
             rev_nr = 1
         price = float(the_hotel["price"])
 
-        return abs(price / (review + 0.4*(review-5) * (1.0 + 0.1*int(log10(rev_nr)-1))))
+        return abs(price * 2.5 / (review + 0.4 * (review - 5) * (1.0 + 0.1 * int(log10(rev_nr) - 1))))
 
     def hotels_ranking(self):
 
@@ -59,14 +66,24 @@ class Hotels:
         hotel_array = hotels_df.as_matrix()
         hotels_df.to_excel("C:\\Users\Daniel\Downloads\BSc 3rd year\HackDelft\Bacpac\prices.xlsx")
 
-        return hotels_df.head(self.hotel_nr)#hotel_array[:hotel_nr, :]  # hotels_df.iloc[[0:self.hotel_nr]]
+        return hotels_df.head(self.hotel_nr)  # hotel_array[:hotel_nr, :]  # hotels_df.iloc[[0:self.hotel_nr]]
+
+    def get_average_price(self):
+        try:
+            price = self.hotels_ranking()["price"].mean()
+        except KeyError:
+            price = " This destination was deleted from your itinerary"
+        return price
+
+
 
 
 if __name__ == "__main__":
-    city = "Ngadisari indonesia"
+    'Ale es gilipollas y no se entera de nada'
+    city = (-7, 112)  # "Ngadisari indonesia"
     max_budget = 130e5
-    checkin_date = '2018-07-29'
-    checkout_date = '2018-07-31'
+    checkin_date = '2018-10-29'
+    checkout_date = '2018-10-31'
     hotel_nr = 5
     adults_nr = 1
     my_hotels = Hotels(city, checkin_date, checkout_date, max_budget, hotel_nr, adults_nr)
