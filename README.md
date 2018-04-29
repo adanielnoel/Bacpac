@@ -1,6 +1,6 @@
 # BacPac
 This repository contains the code for the project: "BacPac", which we developed in HackDelft 2018. The purpose of the app is to cut costs for backpackers.
-The aim of the app is to recommend a path, given a travel time and budget from the user.
+The aim of the app is to recommend a path, given a travel time and budget from the user. At the same time, the app connects together people on the same itinerary.
 
 ## Description
 
