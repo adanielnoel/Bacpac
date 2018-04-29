@@ -60,7 +60,7 @@ class Hotels:
                 # name.append(hotel['hotel_name'])
                 # hotel_price.append(hotel["price"])
                 # hotel_heuristic.append(price_quality(hotel))
-                real_price = hotel["price"] / self.nr_days #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
+                real_price = hotel["price"] #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
                 hotels_df = hotels_df.append(
                     {'name': hotel['hotel_name'], 'price': real_price, 'heuristic': self.price_quality(hotel),
                      'position': (hotel['location']['latitude'], hotel['location']['longitude']),
