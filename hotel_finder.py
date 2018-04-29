@@ -2,13 +2,17 @@ import requests
 import pandas as pd
 import json
 from math import log10
+from datetime import datetime, timedelta
 
 
 class Hotels:
-    def __init__(self, coords, checkin_date, checkout_date, max_budget, hotel_nr, adults_nr,radius):
+    def __init__(self, coords, checkin_date, nr_days, max_budget=30, hotel_nr=5, adults_nr=1, radius=25):
         self.coords = coords
         self.checkin = checkin_date
-        self.checkout = checkout_date
+        date = datetime.strptime(checkin_date, "%Y-%m-%d")
+        self.nr_days = nr_days
+        self.checkout = date + timedelta(days=self.nr_days)
+        self.checkout = datetime.strftime(self.checkout, "%Y-%m-%d")
         self.budget = max_budget
         self.auth = ('booking_hackathon_ichack18', 'WorkingAtBooking.com2018')
         # self.city_api = 'https://distribution-xml.booking.com/2.1/json/autocomplete?language=en;text='+ self.coords
@@ -29,8 +33,6 @@ class Hotels:
                            '&extras=room_details,hotel_details&currency=EUR'
         self.hotels = requests.get(hotel_availables, auth=self.auth).json()['result']
         # json.dump(self.hotels, open("temp.json", 'w'), indent=4)
-
-
         return self.hotels
 
     def price_quality(self, the_hotel):
@@ -38,24 +40,29 @@ class Hotels:
             stars = float(the_hotel["stars"])
             review = float(the_hotel["review_score"])
             rev_nr = float(the_hotel["review_nr"])
+            breakfast =int(the_hotel['rooms'][0]["breakfast_included"])
+
         except KeyError:  # if no review/star give minimum score
             stars = 1
             review = 3
             rev_nr = 1
+            breakfast = 0
         price = float(the_hotel["price"])
 
-        return abs(price * 2 / (review + 0.4 * (review - 5) * (1.0 + 0.1 * int(log10(rev_nr) - 1))))
+        return abs((price * 2+breakfast*0.5) / (review + 0.4 * (review - 5) * (1.0 + 0.1 * int(log10(rev_nr) - 1))))
 
     def hotels_ranking(self):
 
         hotels_df = pd.DataFrame(columns=['name', 'price', 'heuristic'])
         for hotel in self.available_hotels():
             if hotel["price"] < self.budget:
+                # print(hotel['rooms'][0]["extra_charge"][1]["excluded"])
                 # name.append(hotel['hotel_name'])
                 # hotel_price.append(hotel["price"])
                 # hotel_heuristic.append(price_quality(hotel))
+                real_price = hotel["price"] / self.nr_days #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
                 hotels_df = hotels_df.append(
-                    {'name': hotel['hotel_name'], 'price': hotel["price"], 'heuristic': self.price_quality(hotel),
+                    {'name': hotel['hotel_name'], 'price': real_price, 'heuristic': self.price_quality(hotel),
                      'position': (hotel['location']['latitude'], hotel['location']['longitude']),
                      'hotel_id': hotel['hotel_id']}, ignore_index=True)
 
@@ -76,15 +83,14 @@ class Hotels:
         return price
 
 
-
-
 if __name__ == "__main__":
-    city = (-8.722396,115.17671)
+    city = (-7.801377,110.364769)
     max_budget = 130e5
     checkin_date = '2018-09-24'
-    checkout_date = '2018-09-27'
-    hotel_nr = 5
+    nr_days = 1
+    hotel_nr = 20
     adults_nr = 1
-    radius=26
-    my_hotels = Hotels(city, checkin_date, checkout_date, max_budget, hotel_nr, adults_nr, radius)
+    radius=5
+    my_hotels = Hotels(city, checkin_date, nr_days)
     print(my_hotels.hotels_ranking())
+    print()

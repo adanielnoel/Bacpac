@@ -8,24 +8,22 @@ from utils import transport_cost
 import datetime
 
 'Inputs'
-max_budget = 20  # eur / night
-checkin_date = '2018-07-29'
-checkout_date = '2018-07-31'
-hotel_nr = 1
-adults_nr = 1
-radius = 25
-# date = datetime.datetime.strptime(start_date, "%y-%m-%d")
+checkin_date = '2018-10-29'
+nr_days = 1
 
+#######################
 dataset = pandas.read_csv("IndonesiaDataset.csv")
 dataset.set_index("Landmark", inplace=True)
 accomodation_cost = 0
 
 for landmark in dataset.index.values:
     my_hotels = Hotels((dataset.at[landmark, 'Latitude'], dataset.at[landmark, 'Longitude']), checkin_date,
-                       checkout_date, max_budget, hotel_nr, adults_nr, radius)
+                       nr_days)
     my_hotel_price = my_hotels.get_average_price()
     if isinstance(my_hotel_price, (int, float)):
         accomodation_cost += my_hotel_price
+    else:
+        dataset.drop([landmark], inplace=True)
     print(landmark, my_hotel_price)
 
 # dataset.set_index("Landmark", inplace=True)
@@ -41,4 +39,4 @@ print(transport_cost(dataset, "Bali Ubud", "Nusa Penida"))
 
 # plot_map(points=[tuple(coords) for coords in dataset[["Latitude", "Longitude"]].values],
 #          names=dataset["Landmark"].values)
-print(dataset)
+# print(dataset)
