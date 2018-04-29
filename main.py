@@ -28,8 +28,8 @@ def get_accomodation_price(dataset, checkin_date):
         print(landmark, my_hotel_price)
         if isinstance(my_hotel_price, (int, float)):
             accomodation_cost += my_hotel_price
-        else:
-            dataset.drop([landmark], inplace=True)
+        #else:
+        #    dataset.drop([landmark], inplace=True)
     return accomodation_cost
 
 

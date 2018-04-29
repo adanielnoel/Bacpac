@@ -52,7 +52,7 @@ def calculate_time_spent(day_city, indeces):
 
 start_point_string = 'Jakarta'
 end_point_string = 'Bali Kuta/Denpasar'
-time_available= 15
+time_available= 30
 def optimize_time(start_point_string, end_point_string, time_available):
     optimaized = False
     dataset_live = dataset
@@ -92,9 +92,9 @@ def optimize_time(start_point_string, end_point_string, time_available):
 dataset_live = optimize_time(start_point_string, end_point_string, time_available)
 path, scores_sort, day_city, day_city_max, start_point, end_point=generate_update(dataset_live, start_point_string, end_point_string)
 plot_map(itinerary=[(dataset.at[dataset.index.values[i], "Latitude"], dataset.at[dataset.index.values[i], "Longitude"]) for i in path])
-money_available = 500
+money_available = 4000
 checkin_date = '2018-09-29'
-cost_day = 30
+cost_day = 15
 
 def calculate_money_spent(dataset_live, indeces, cost_day, time_available, checkin_date):
     counter = 0
