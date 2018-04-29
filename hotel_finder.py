@@ -35,7 +35,7 @@ class Hotels:
         # json.dump(self.hotels, open("temp.json", 'w'), indent=4)
         return self.hotels
 
-    def price_quality(self, the_hotel):
+    def price_quality(self, the_hotel,dist):
         try:
             stars = float(the_hotel["stars"])
             review = float(the_hotel["review_score"])
@@ -49,22 +49,44 @@ class Hotels:
             breakfast = 0
         price = float(the_hotel["price"])
 
-        return abs((price * 2+breakfast*0.5) / (review + 0.4 * (review - 5) * (1.0 + 0.1 * int(log10(rev_nr) - 1))))
+        return abs((price * 2+breakfast*0.5+0.5*dist) / (review + 0.4 * (review - 5) * (1.0 + 0.1 * int(log10(rev_nr) - 1)))+breakfast*0.5)
+
+    def dist(self,lat1, lon1, lat2, lon2):
+        r = 6371
+        lat1 = radians(lat1)
+        lon1= radians(lon1)
+        lat2 = radians(lat2)
+        lon2 = radians(lon2)
+        delta_lat = (lat2 - lat1)
+        delta_lon = (lon2 - lon1)
+        a = sin(delta_lat / 2) * sin(delta_lat / 2) + cos(lat1) * cos(lat2) * sin(delta_lon / 2) * sin(delta_lon / 2);
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        d = r * c
+        return d
 
     def hotels_ranking(self):
 
-        hotels_df = pd.DataFrame(columns=['name', 'price', 'heuristic'])
+        hotels_df = pd.DataFrame(columns=['name', 'price', 'heuristic', 'position', 'hotel_id', 'distance', 'breakfast', 'rev_score'])
         for hotel in self.available_hotels():
             if hotel["price"] < self.budget:
                 # print(hotel['rooms'][0]["extra_charge"][1]["excluded"])
                 # name.append(hotel['hotel_name'])
                 # hotel_price.append(hotel["price"])
                 # hotel_heuristic.append(price_quality(hotel))
+                try:
+                    score_rews = hotel['review_score']
+                except KeyError:
+                    score_rews= 0
+
+                real_price = hotel["price"] #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
+                dist = self.dist(float(hotel['location']['latitude']), float(hotel['location']['longitude']),
+                                 self.coords[0], self.coords[1])
+
                 real_price = hotel["price"] #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
                 hotels_df = hotels_df.append(
-                    {'name': hotel['hotel_name'], 'price': real_price, 'heuristic': self.price_quality(hotel),
+                    {'name': hotel['hotel_name'], 'price': real_price, 'heuristic': self.price_quality(hotel,dist),
                      'position': (hotel['location']['latitude'], hotel['location']['longitude']),
-                     'hotel_id': hotel['hotel_id']}, ignore_index=True)
+                     'hotel_id': hotel['hotel_id'], 'distance': dist, 'breakfast':str(bool(hotel['rooms'][0]["breakfast_included"])),'rev_score':score_rews}, ignore_index=True)
 
         # hotels_df['price'] = hotel_price
         # hotels_df["Quality heuristic"] = hotel_heuristic
