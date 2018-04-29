@@ -52,7 +52,7 @@ def calculate_time_spent(day_city, indeces):
 
 start_point_string = 'Jakarta'
 end_point_string = 'Bali Kuta/Denpasar'
-time_available= 30
+time_available= 35
 def optimize_time(start_point_string, end_point_string, time_available):
     optimaized = False
     dataset_live = dataset
@@ -92,8 +92,8 @@ def optimize_time(start_point_string, end_point_string, time_available):
 dataset_live = optimize_time(start_point_string, end_point_string, time_available)
 path, scores_sort, day_city, day_city_max, start_point, end_point=generate_update(dataset_live, start_point_string, end_point_string)
 plot_map(itinerary=[(dataset.at[dataset.index.values[i], "Latitude"], dataset.at[dataset.index.values[i], "Longitude"]) for i in path])
-money_available = 4000
-checkin_date = '2018-09-29'
+money_available = 2000
+checkin_date = '2018-05-29'
 cost_day = 15
 
 def calculate_money_spent(dataset_live, indeces, cost_day, time_available, checkin_date):
@@ -105,9 +105,13 @@ def calculate_money_spent(dataset_live, indeces, cost_day, time_available, check
         counter+=transport_cost(dataset_live, city1, city2)/16850.70
         city1 = city2
     # add living expenses
-    counter += float(cost_day)*float(time_available)
+    local_living = float(cost_day)*float(time_available)
+    counter += 600
+    price_night = (counter - local_living)/float(time_available)
+    print("Price per night", price_night)
+    counter += float(cost_day) * float(time_available)
     # add hotel expenses
-    counter += get_accomodation_price(dataset_live, checkin_date)
+    counter += get_accomodation_price(dataset_live, checkin_date, max_budget=price_night)
     return counter
 
 def optimize_money(start_point_string, end_point_string, money_available, dataset_live, origin_dataset, checkin_date):
@@ -115,9 +119,11 @@ def optimize_money(start_point_string, end_point_string, money_available, datase
     path, scores_sort, day_city, day_city_max, start_point, end_point = generate_update(dataset_live, start_point_string, end_point_string)
     total_days=sum(day_city)
     money_spent = calculate_money_spent(dataset_live, path, cost_day, total_days, checkin_date) #todo change
+    print("Money spent", money_spent)
     while not optimaized:
 
         if money_spent > money_available:
+            print('gay')
             counter = 0
             do = True
             while do:

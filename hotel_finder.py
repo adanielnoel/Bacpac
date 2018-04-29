@@ -6,14 +6,14 @@ from datetime import datetime, timedelta
 
 
 class Hotels:
-    def __init__(self, coords, checkin_date, nr_days, max_budget=30, hotel_nr=5, adults_nr=1, radius=60):
+    def __init__(self, coords, checkin_date, nr_days, max_budget=20, hotel_nr=5, adults_nr=1, radius=25):
         self.coords = coords
         self.checkin = checkin_date
         date = datetime.strptime(checkin_date, "%Y-%m-%d")
         self.nr_days = nr_days
         self.checkout = date + timedelta(days=self.nr_days)
         self.checkout = datetime.strftime(self.checkout, "%Y-%m-%d")
-        self.budget = max_budget
+        self.budget = max_budget*nr_days
         self.auth = ('booking_hackathon_ichack18', 'WorkingAtBooking.com2018')
         # self.city_api = 'https://distribution-xml.booking.com/2.1/json/autocomplete?language=en;text='+ self.coords
         # self.city_id = requests.get(self.city_api, auth=self.auth).json()['result'][0]['id']
