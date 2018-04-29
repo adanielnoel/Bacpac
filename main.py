@@ -15,12 +15,12 @@ checkin_date = '2018-09-29'
 dataset = pandas.read_csv("IndonesiaDataset.csv")
 dataset.set_index("Landmark", inplace=True)
 
-def get_accomodation_price(dataset, checkin_date):
+def get_accomodation_price(dataset, checkin_date, max_budget = 20):
     accomodation_cost = 0
 
     for landmark in dataset.index.values:
         nr_days = int(dataset.at[landmark, "Est. min duration (nights)"])
-        my_hotels = Hotels((dataset.at[landmark, 'Latitude'], dataset.at[landmark, 'Longitude']), checkin_date,nr_days)
+        my_hotels = Hotels((dataset.at[landmark, 'Latitude'], dataset.at[landmark, 'Longitude']), checkin_date,nr_days, max_budget)
         my_hotel_price = my_hotels.get_average_price()
         checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d")
         checkin_date += timedelta(days=nr_days)

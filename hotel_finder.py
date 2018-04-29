@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 import json
-from math import log10
+from math import log10, sqrt, atan2, cos, sin, radians
 from datetime import datetime, timedelta
 
 
