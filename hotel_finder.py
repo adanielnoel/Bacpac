@@ -70,36 +70,35 @@ class Hotels:
     def hotels_ranking(self):
         hotels_df = pd.DataFrame(columns=['name', 'price', 'heuristic', 'position', 'hotel_id', 'distance', 'breakfast', 'rev_score'])
 
-        if self.available_hotels() != None:
-            for hotel in self.available_hotels():
-                if hotel["price"] < self.budget:
-                    # print(hotel['rooms'][0]["extra_charge"][1]["excluded"])
-                    # name.append(hotel['hotel_name'])
-                    # hotel_price.append(hotel["price"])
-                    # hotel_heuristic.append(price_quality(hotel))
-                    try:
-                        score_rews = hotel['review_score']
-                    except KeyError:
-                        score_rews= 0
+        for hotel in self.available_hotels():
+            if hotel["price"] < self.budget:
+                # print(hotel['rooms'][0]["extra_charge"][1]["excluded"])
+                # name.append(hotel['hotel_name'])
+                # hotel_price.append(hotel["price"])
+                # hotel_heuristic.append(price_quality(hotel))
+                try:
+                    score_rews = hotel['review_score']
+                except KeyError:
+                    score_rews= 0
 
-                    dist = self.dist(float(hotel['location']['latitude']), float(hotel['location']['longitude']),
-                                     self.coords[0], self.coords[1])
+                dist = self.dist(float(hotel['location']['latitude']), float(hotel['location']['longitude']),
+                                 self.coords[0], self.coords[1])
 
-                    real_price = hotel["price"] #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
-                    hotels_df = hotels_df.append(
-                        {'name': hotel['hotel_name'], 'price': real_price, 'heuristic': self.price_quality(hotel,dist),
-                         'position': (hotel['location']['latitude'], hotel['location']['longitude']),
-                         'hotel_id': hotel['hotel_id'], 'distance': dist, 'breakfast':str(bool(hotel['rooms'][0]["breakfast_included"])),'rev_score':score_rews}, ignore_index=True)
+                real_price = hotel["price"] #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
+                hotels_df = hotels_df.append(
+                    {'name': hotel['hotel_name'], 'price': real_price, 'heuristic': self.price_quality(hotel,dist),
+                     'position': (hotel['location']['latitude'], hotel['location']['longitude']),
+                     'hotel_id': hotel['hotel_id'], 'distance': dist, 'breakfast':str(bool(hotel['rooms'][0]["breakfast_included"])),'rev_score':score_rews}, ignore_index=True)
 
-            # hotels_df['price'] = hotel_price
-            # hotels_df["Quality heuristic"] = hotel_heuristic
-            hotels_df.set_index('hotel_id', drop=True, inplace=True)
-            hotels_df = hotels_df.sort_values(['heuristic'])
-            if self.hotel_nr > len(hotels_df["heuristic"]):
-                self.hotel_nr = len(hotels_df["heuristic"])
+        # hotels_df['price'] = hotel_price
+        # hotels_df["Quality heuristic"] = hotel_heuristic
+        hotels_df.set_index('hotel_id', drop=True, inplace=True)
+        hotels_df = hotels_df.sort_values(['heuristic'])
+        if self.hotel_nr > len(hotels_df["heuristic"]):
+            self.hotel_nr = len(hotels_df["heuristic"])
 
-            # hotel_array = hotels_df.as_matrix()
-            # hotels_df.to_excel("C:\\Users\Daniel\Downloads\BSc 3rd year\HackDelft\Bacpac\prices.xlsx")
+        # hotel_array = hotels_df.as_matrix()
+        # hotels_df.to_excel("C:\\Users\Daniel\Downloads\BSc 3rd year\HackDelft\Bacpac\prices.xlsx")
 
         return hotels_df.head(self.hotel_nr)  # hotel_array[:hotel_nr, :]  # hotels_df.iloc[[0:self.hotel_nr]]
 
@@ -107,7 +106,7 @@ class Hotels:
         if  self.available_hotels()!= None and self.hotels_ranking().empty == False:
             try:
                 self.price = self.hotels_ranking()["price"].mean()
-                print(self.hotels_ranking())
+                # print(self.hotels_ranking())
             except KeyError:
                 self.price = " This destination was deleted from your itinerary"
                 self.nr_days = 0
