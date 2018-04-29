@@ -2,6 +2,7 @@ import numpy as np
 from greedy_TSP_albi import solve_tsp
 from main import dataset
 from utils import transport_cost, plot_map
+from other_utils import sort, update_dict
 '''#test
 #a = np.array([[0,2,3],[7,0,5], [9,10,0]])
 a = np.random.rand(14,14)
@@ -25,53 +26,53 @@ def array2list(array):
     return triangular_list
 
 
-def generate_triangular_list(dataset): #include update
+def generate_update(dataset): #include update
     cost_array = generate_cost_array(dataset)
     triangular_list = array2list(cost_array)
-    return triangular_list
-
-#need function get max array
-#need function get min array
-#need function get popularity array
+    scores = dataset['score']
+    sorter = range(len(scores))
+    scores_sort = sort(scores, sorter)
+    day_city = dataset['Est. min duration (nights)']
+    day_city_max = dataset['Est. max duration (nights)']
+    return triangular_list, scores_sort, day_city, day_city_max
 
 
 
 #path = solve_tsp(triangular_list, optim_steps=100, endpoints=(8,0))
-
-popular_list= [10,9,7,3,6,4,2,1,5,14,13,11,12,0] #this will update with dictionary automatically
-day_city = [3,4,5,6,5,3,4,1,2,3,4,5,1,2] #this will update with dictionary automatically minimum
 
 def calculate_time_spent(day_city, indeces):
     counter = 0
     for i in indeces:
         counter += day_city[i]
     return counter
+
 optimaized = False
 time_available= 14 #input user
 start_point = 8 #index of start city, good to put time and get number
 end_point = 0 #index of end city
-triangular_list = generate_triangular_list(dataset)
+dataset_live = dataset
+triangular_list, scores_sort, day_city, day_city_max = generate_update(dataset_live)
 path = solve_tsp(triangular_list, optim_steps=100, endpoints=(start_point, end_point))
 time_spent = calculate_time_spent(day_city, path)
 while not optimaized:
 
 
     if time_spent > time_available:
-        try_remove = popular_list[0]
+        try_remove = scores_sort[0]
         if try_remove==start_point or try_remove==end_point: #checkforremoval
-            try_remove = popular_list[1]
+            try_remove = scores_sort[1]
         if try_remove==start_point or try_remove==end_point: #checkforremoval needs to be done twice
-            try_remove = popular_list[2]
-        #funtoremovefromdictionary
-        triangular_list=generate_triangular_list(dataset)
+            try_remove = scores_sort[2]
+        dataset_live = update_dict(dataset_live, try_remove)
+        triangular_list, scores_sort, day_city, day_city_max=generate_update(dataset_live)
         path = solve_tsp(triangular_list, optim_steps=100, endpoints=(start_point, end_point))
 
     if time_spent < time_available:
         counter = -1
         do = True
         while do:
-            if day_city[popular_list[counter]] != max_day_city[day_city[popular_list[counter]]]:
-                day_city[popular_list[-1]] = day_city[popular_list[-1]]+1
+            if day_city[scores_sort[counter]] != day_city_max[day_city[scores_sort[counter]]]:
+                day_city[scores_sort[-1]] = day_city[scores_sort[-1]]+1
                 do = False
             else:
                 counter-=1
