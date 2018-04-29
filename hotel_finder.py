@@ -1,12 +1,12 @@
 import requests
 import pandas as pd
 import json
-from math import log10, sin, cos, sqrt,atan2, radians
+from math import log10
 from datetime import datetime, timedelta
 
 
 class Hotels:
-    def __init__(self, coords, checkin_date, nr_days, max_budget=30, hotel_nr=5, adults_nr=1, radius=25):
+    def __init__(self, coords, checkin_date, nr_days, max_budget=30, hotel_nr=5, adults_nr=1, radius=60):
         self.coords = coords
         self.checkin = checkin_date
         date = datetime.strptime(checkin_date, "%Y-%m-%d")
@@ -78,10 +78,11 @@ class Hotels:
                 except KeyError:
                     score_rews= 0
 
-                real_price = hotel["price"] / self.nr_days #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
+                real_price = hotel["price"] #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
                 dist = self.dist(float(hotel['location']['latitude']), float(hotel['location']['longitude']),
                                  self.coords[0], self.coords[1])
 
+                real_price = hotel["price"] #+ hotel['rooms'][0]["extra_charge"]["amount"]+hotel['rooms'][0]["extra_charge"][1]["amount"]
                 hotels_df = hotels_df.append(
                     {'name': hotel['hotel_name'], 'price': real_price, 'heuristic': self.price_quality(hotel,dist),
                      'position': (hotel['location']['latitude'], hotel['location']['longitude']),
