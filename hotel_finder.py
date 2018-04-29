@@ -44,7 +44,7 @@ class Hotels:
             rev_nr = 1
         price = float(the_hotel["price"])
 
-        return abs(price * 2.5 / (review + 0.4 * (review - 5) * (1.0 + 0.1 * int(log10(rev_nr) - 1))))
+        return abs(price * 2 / (review + 0.4 * (review - 5) * (1.0 + 0.1 * int(log10(rev_nr) - 1))))
 
     def hotels_ranking(self):
 
@@ -63,8 +63,8 @@ class Hotels:
         # hotels_df["Quality heuristic"] = hotel_heuristic
         hotels_df.set_index('hotel_id', drop=True, inplace=True)
         hotels_df = hotels_df.sort_values(['heuristic'])
-        hotel_array = hotels_df.as_matrix()
-        hotels_df.to_excel("C:\\Users\Daniel\Downloads\BSc 3rd year\HackDelft\Bacpac\prices.xlsx")
+        # hotel_array = hotels_df.as_matrix()
+        # hotels_df.to_excel("C:\\Users\Daniel\Downloads\BSc 3rd year\HackDelft\Bacpac\prices.xlsx")
 
         return hotels_df.head(self.hotel_nr)  # hotel_array[:hotel_nr, :]  # hotels_df.iloc[[0:self.hotel_nr]]
 
@@ -79,12 +79,12 @@ class Hotels:
 
 
 if __name__ == "__main__":
-    'Ale es gilipollas y no se entera de nada'
-    city = (-7, 112)  # "Ngadisari indonesia"
+    city = (-8.722396,115.17671)
     max_budget = 130e5
-    checkin_date = '2018-10-29'
-    checkout_date = '2018-10-31'
+    checkin_date = '2018-09-24'
+    checkout_date = '2018-09-27'
     hotel_nr = 5
     adults_nr = 1
-    my_hotels = Hotels(city, checkin_date, checkout_date, max_budget, hotel_nr, adults_nr)
+    radius=26
+    my_hotels = Hotels(city, checkin_date, checkout_date, max_budget, hotel_nr, adults_nr, radius)
     print(my_hotels.hotels_ranking())
