@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 import json
-from math import log10
+from math import log10, radians, atan2, sin, cos, sqrt
 from datetime import datetime, timedelta
 
 
@@ -49,7 +49,7 @@ class Hotels:
             breakfast = 0
         price = float(the_hotel["price"])
 
-        return abs((price * 2+breakfast*0.5+0.5*dist) / (review + 0.4 * (review - 5) * (1.0 + 0.1 * int(log10(rev_nr) - 1)))+breakfast*0.5)
+        return abs((price * 2+0*dist) / (review + 0.4 * (review - 5) * (1.0 + 0.1 * int(log10(rev_nr) - 1)))+breakfast*0.5)
 
     def dist(self,lat1, lon1, lat2, lon2):
         r = 6371
