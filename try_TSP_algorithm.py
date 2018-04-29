@@ -91,7 +91,7 @@ def optimize_time(start_point_string, end_point_string, time_available):
 
 dataset_live = optimize_time(start_point_string, end_point_string, time_available)
 path, scores_sort, day_city, day_city_max, start_point, end_point=generate_update(dataset_live, start_point_string, end_point_string)
-plot_map(itinerary=[(dataset.at[dataset.index.values[i], "Latitude"], dataset.at[dataset.index.values[i], "Longitude"]) for i in path])
+plot_map(itinerary=[[41.840385, 12.293174]]+[(dataset.at[dataset.index.values[i], "Latitude"], dataset.at[dataset.index.values[i], "Longitude"]) for i in path]+ [[41.840385, 12.293174]])
 money_available = 2000
 checkin_date = '2018-05-29'
 cost_day = 15
@@ -163,5 +163,4 @@ def optimize_money(start_point_string, end_point_string, money_available, datase
 
 dataset_live=optimize_money(start_point_string, end_point_string, money_available, dataset_live, dataset, checkin_date)
 path, scores_sort, day_city, day_city_max, start_point, end_point=generate_update(dataset_live, start_point_string, end_point_string)
-plot_map(itinerary=[(dataset.at[dataset.index.values[i], "Latitude"], dataset.at[dataset.index.values[i], "Longitude"]) for i in path])
-
+plot_map(itinerary=[[41.840385, 12.293174]]+[(dataset.at[dataset.index.values[i], "Latitude"], dataset.at[dataset.index.values[i], "Longitude"]) for i in path]+ [[41.840385, 12.293174]])
