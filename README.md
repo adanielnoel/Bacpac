@@ -8,9 +8,11 @@ What really brings this team together is that we all love travelling, and we’v
 The only way we were able to make our dream trips through Thailand, Malaysia and Indonesia a reality was by spending countless hours in front of websites expecting us to spend more money than we’d ever seen in our lives for two nights in some torn down bungalow eating expired instant noodles.
 That's why we came up with the idea of an app able to optimize the travel route for time and budget constraints given by the user.
 
-![Alt text](extra/d7688bf5-ba4d-4114-b75c-0bd654e49f86.jpg?raw=true "Bacpac interface")
+![Alt text](extra/c1a1dd36-b174-43fb-a886-d2ebaab1e232.jpg?raw=true "Bacpac interface")
 
-![Alt text](extra/f6d63cbb-d58a-42bd-a3e0-c6954af66406-1.jpg?raw=true "Bacpac messaging")
+![Alt text](extra/945182d2-a1cf-46de-a627-2d3a359885ac-1.jpg?raw=true "Bacpac pathfinder")
+
+![Alt text](extra/aa654dcb-8a4b-4c36-950d-a3b5d657a1c4-1.jpg?raw=true "Bacpac messaging")
 ## Dataset
 Dataset used has been created from the Web and in particular from the Booking Api, which includes review scores, popularity of the location, price of the hotels, extras etc...
 
