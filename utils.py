@@ -11,6 +11,7 @@ def plot_map(points: List[Tuple[float, float]] = (),
              names: List[str] = (),
              itinerary: List[Tuple[float, float]] = ()):
     mapbox_access_token = 'pk.eyJ1IjoiYWxlYWxlZGFuaWRhbmkiLCJhIjoiY2pnamxtdWF4MGM5ajMzcGFlOHJmcHZleSJ9._Tm6laqlGWPvEQL5UxqhWQ'
+    points = itinerary
 
     data = Data([
         Scattermapbox(
@@ -18,7 +19,8 @@ def plot_map(points: List[Tuple[float, float]] = (),
             lon=[coords[1] for coords in points],
             mode='markers',
             marker=Marker(
-                size=9
+                size=9,
+                color = '#0b3f93'
             ),
             text=names,
         ),
@@ -28,7 +30,7 @@ def plot_map(points: List[Tuple[float, float]] = (),
             mode='lines',
             line={
                 "width": 2,
-                "color": '#FF1919'
+                "color": '#4286f4'
             },
             opacity=0.8
         ),

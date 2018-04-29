@@ -1,4 +1,4 @@
-from main import dataset
+from price_accomodation import dataset
 
 
 scores = dataset['score']
