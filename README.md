@@ -15,7 +15,8 @@ That's why we came up with the idea of an app able to optimize the travel route 
 ![Alt text](extra/aa654dcb-8a4b-4c36-950d-a3b5d657a1c4-1.jpg?raw=true "Bacpac messaging")
 ## Dataset
 Dataset used has been created from the Web and in particular from the Booking Api, which includes review scores, popularity of the location, price of the hotels, extras etc...
-
+## Simulation
+To start simulation run: main.py
 
 ### Requirements
 
