@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 
 class Hotels:
-    def __init__(self, coords, checkin_date, nr_days, max_budget=20, hotel_nr=1, adults_nr=1, radius=25):
+    def __init__(self, coords, checkin_date, nr_days, max_budget=20, hotel_nr=5, adults_nr=1, radius=25):
         self.coords = coords
         self.checkin = checkin_date
         date = datetime.strptime(checkin_date, "%Y-%m-%d")
