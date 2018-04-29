@@ -25,8 +25,9 @@ def get_accomodation_price(dataset, checkin_date, max_budget = 20):
         checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d")
         checkin_date += timedelta(days=nr_days)
         checkin_date = datetime.strftime(checkin_date, "%Y-%m-%d")
+        # print (my_hotels.hotels_ranking())
         print(landmark, my_hotel_price)
-        print (my_hotels.hotels_ranking())
+
         if isinstance(my_hotel_price, (int, float)):
             accomodation_cost += my_hotel_price
         #else:
