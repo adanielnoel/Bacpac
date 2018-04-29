@@ -20,13 +20,13 @@ dataset = pandas.read_csv("IndonesiaDataset.csv")
 dataset.set_index("Landmark", inplace=True)
 accomodation_cost = 0
 
-for landmark in dataset.index.values:
-    my_hotels = Hotels((dataset.at[landmark, 'Latitude'], dataset.at[landmark, 'Longitude']), checkin_date,
-                       checkout_date, max_budget, hotel_nr, adults_nr, radius)
-    my_hotel_price = my_hotels.get_average_price()
-    if isinstance(my_hotel_price, (int, float)):
-        accomodation_cost += my_hotel_price
-    print(landmark, my_hotel_price)
+#for landmark in dataset.index.values:
+#    my_hotels = Hotels((dataset.at[landmark, 'Latitude'], dataset.at[landmark, 'Longitude']), checkin_date,
+#                       checkout_date, max_budget, hotel_nr, adults_nr, radius)
+#    my_hotel_price = my_hotels.get_average_price()
+#    if isinstance(my_hotel_price, (int, float)):
+#        accomodation_cost += my_hotel_price
+#    print(landmark, my_hotel_price)
 
 # dataset.set_index("Landmark", inplace=True)
 
