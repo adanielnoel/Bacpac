@@ -8,7 +8,7 @@ What really brings this team together is that we all love travelling, and we’v
 The only way we were able to make our dream trips through Thailand, Malaysia and Indonesia a reality was by spending countless hours in front of websites expecting us to spend more money than we’d ever seen in our lives for two nights in some torn down bungalow eating expired instant noodles.
 The app consists of two services. The first finds optimised itineraries given a geographical area, a budget and a range of dates. This automatically finds landmarks, budget hotels with good reviews in each, allocates time in each landmark based on popularity, considers travelling distance and cost to find the optimal order, and finally generates a comprehensive summary. The second service connects the user to backpackers that are looking for a similar experience. By joining others the user can considerably lower his/her expenses (the amount saved is also calculated).
 
-
+Note: The screens shown in the figures are only conceptual. Our code focused on solving a simplified TSP problem and using the Booking.com API to recommend accomodations.
 
 ![Alt text](extra/c1a1dd36-b174-43fb-a886-d2ebaab1e232.jpg?raw=true "Bacpac interface")
 
